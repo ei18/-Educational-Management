@@ -5,6 +5,8 @@ import com.riwi.educationalManagement.api.dto.response.EnrollmentResponse;
 import com.riwi.educationalManagement.infraestructure.abstract_service.IEnrollmentService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 @AllArgsConstructor
 public class EnrollmentService implements IEnrollmentService{
+
+
     @Override
     public EnrollmentResponse create(EnrollmentRequest request) {
         // TODO Auto-generated method stub

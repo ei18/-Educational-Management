@@ -25,7 +25,6 @@ public class AssigmentService implements IAssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final LessonRepository lessonRepository;
 
-
     @Override
     public CompleteAssignmentInfo create(AssignmentRequest request) {
 
@@ -71,23 +70,6 @@ public class AssigmentService implements IAssignmentService {
         this.assignmentRepository.delete(this.find(id));
     }
 
-    private Assignment find(Long id) {
-        return this.assignmentRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Assignment"));
-    }
-
-    private Assignment requestToEntity(AssignmentRequest request) {
-
-        return Assignment.builder()
-                .assignmentTitle(request.getAssignmentTitle())
-                .description(request.getDescription())
-                .dueDate(request.getDueDate())
-                .lesson(Lesson.builder()
-                        .id(request.getLessonId())
-                        .build())
-                .build();
-    }
-
     private CompleteAssignmentInfo entityToResponse(Assignment assignment) {
 
         return CompleteAssignmentInfo.builder()
@@ -114,4 +96,22 @@ public class AssigmentService implements IAssignmentService {
                         .build())
                 .build();
     }
+
+    private Assignment requestToEntity(AssignmentRequest request) {
+
+        return Assignment.builder()
+                .assignmentTitle(request.getAssignmentTitle())
+                .description(request.getDescription())
+                .dueDate(request.getDueDate())
+                .lesson(Lesson.builder()
+                        .id(request.getLessonId())
+                        .build())
+                .build();
+    }
+
+    private Assignment find(Long id) {
+        return this.assignmentRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Assignment"));
+    }
+
 }

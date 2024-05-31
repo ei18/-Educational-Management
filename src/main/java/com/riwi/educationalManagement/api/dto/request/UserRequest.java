@@ -22,9 +22,4 @@ public class UserRequest {
     @Size(min = 1, max = 100, message = "The full name must have a maximum of 100 characters.")
     private String fullName;
     private Role role;
-    private Long enrollmentId;
-    private Long courseId;
-    private Long messageSenderId;
-    private Long messageReceiverId;
-    private Long submissionId;
 }
