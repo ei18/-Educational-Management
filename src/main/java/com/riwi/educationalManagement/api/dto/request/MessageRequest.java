@@ -10,16 +10,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageRequest {
-
     private String messageContent;
-
     private LocalDateTime sentDate;
-
     private Long senderId;
-
-    private String userWhoSentMessage;
-
     private Long receiverId;
-
     private Long courseId;
 }

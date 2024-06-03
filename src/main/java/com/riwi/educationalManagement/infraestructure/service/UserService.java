@@ -78,6 +78,6 @@ public class UserService implements IUserService{
 
     private User find(Long id){
         return this.userRepository.findById(id)
-            .orElseThrow(()-> new BadRequestException(ErrorMessages.IdNotFound("User")));
+            .orElseThrow(() -> new BadRequestException(ErrorMessages.IdNotFound("User")));
     }
 }

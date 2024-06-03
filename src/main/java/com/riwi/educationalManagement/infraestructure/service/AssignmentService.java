@@ -1,7 +1,7 @@
 package com.riwi.educationalManagement.infraestructure.service;
 
 import com.riwi.educationalManagement.api.dto.request.AssignmentRequest;
-import com.riwi.educationalManagement.api.dto.response.CompleteAssignmentInfo;
+import com.riwi.educationalManagement.api.dto.response.CompleteAssignmentInfoResponse;
 import com.riwi.educationalManagement.api.dto.response.CompleteLessonInformationResponse;
 import com.riwi.educationalManagement.api.dto.response.CourseToUserResponse;
 import com.riwi.educationalManagement.api.dto.response.UserInfoResponse;
@@ -13,6 +13,8 @@ import com.riwi.educationalManagement.infraestructure.abstract_service.IAssignme
 import com.riwi.educationalManagement.utils.exception.BadRequestException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,13 +22,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 @AllArgsConstructor
-public class AssigmentService implements IAssignmentService {
+public class AssignmentService implements IAssignmentService {
 
+    @Autowired
     private final AssignmentRepository assignmentRepository;
+    @Autowired
     private final LessonRepository lessonRepository;
 
     @Override
-    public CompleteAssignmentInfo create(AssignmentRequest request) {
+    public CompleteAssignmentInfoResponse create(AssignmentRequest request) {
 
         Lesson lesson = this.lessonRepository.findById(request.getLessonId())
                 .orElseThrow(()-> new BadRequestException("Lesson"));
@@ -38,12 +42,12 @@ public class AssigmentService implements IAssignmentService {
     }
 
     @Override
-    public CompleteAssignmentInfo get(Long id) {
+    public CompleteAssignmentInfoResponse get(Long id) {
         return this.entityToResponse(this.find(id));
     }
 
     @Override
-    public Page<CompleteAssignmentInfo> getAll(int page, int size) {
+    public Page<CompleteAssignmentInfoResponse> getAll(int page, int size) {
         if (page < 0)
             page = 0;
 
@@ -54,7 +58,7 @@ public class AssigmentService implements IAssignmentService {
     }
 
     @Override
-    public CompleteAssignmentInfo update(AssignmentRequest request, Long id) {
+    public CompleteAssignmentInfoResponse update(AssignmentRequest request, Long id) {
 
         Assignment assignment = this.find(id);
 
@@ -70,9 +74,9 @@ public class AssigmentService implements IAssignmentService {
         this.assignmentRepository.delete(this.find(id));
     }
 
-    private CompleteAssignmentInfo entityToResponse(Assignment assignment) {
+    private CompleteAssignmentInfoResponse entityToResponse(Assignment assignment) {
 
-        return CompleteAssignmentInfo.builder()
+        return CompleteAssignmentInfoResponse.builder()
                 .id(assignment.getId())
                 .assignmentTitle(assignment.getAssignmentTitle())
                 .description(assignment.getDescription())

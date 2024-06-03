@@ -11,16 +11,10 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompleteAssignmentInfo {
-
+public class CompleteAssignmentInfoResponse {
     private Long id;
-
     private String assignmentTitle;
-
     private String description;
-
     private LocalDate dueDate;
-
     private CompleteLessonInformationResponse lessonInfo;
-
 }

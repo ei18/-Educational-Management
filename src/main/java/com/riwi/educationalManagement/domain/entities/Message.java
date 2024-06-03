@@ -20,6 +20,7 @@ public class Message {
     @Lob
     private String messageContent;
     private LocalDateTime sentDate = LocalDateTime.now();
+    private String roleSender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", referencedColumnName = "id")

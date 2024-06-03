@@ -15,4 +15,6 @@ public class MessageResponse {
     private Long id;
     private String messageContent;
     private LocalDateTime sentDate;
+    private UserInfoResponse userSender;
+    private UserInfoResponse userReceiver;
 }

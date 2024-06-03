@@ -12,17 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Assignment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String assignmentTitle;
-
     @Lob
     private String description;
-
     private LocalDate dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

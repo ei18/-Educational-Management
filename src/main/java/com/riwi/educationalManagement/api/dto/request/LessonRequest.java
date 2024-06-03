@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LessonRequest {
     @NotBlank(message = "The title is required")
-
     private String lessonTitle;
-
     private String content;
-
     private Long courseId;
 }

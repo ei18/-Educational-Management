@@ -13,10 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AssignmentResponse {
     private Long id;
-
     private String assignmentTitle;
-
     private String description;
-
     private LocalDate dueDate;
 }

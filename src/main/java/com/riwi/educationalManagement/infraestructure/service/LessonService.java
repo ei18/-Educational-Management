@@ -25,10 +25,8 @@ public class LessonService implements ILessonService{
 
     @Autowired
     private final LessonRepository lessonRepository;
-
     @Autowired
     private final CourseRepository courseRepository;
-
 
     @Override
     public CompleteLessonInformationResponse create(LessonRequest request) {

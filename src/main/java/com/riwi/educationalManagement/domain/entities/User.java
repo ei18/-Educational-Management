@@ -23,8 +23,6 @@ public class User {
     private String email;
     @Column(length = 100)
     private String fullName;
-
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

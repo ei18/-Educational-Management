@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnrollmentRequest {
-
     private LocalDateTime enrollmentDate;
-
     private Long userId;
-
     private Long courseId;
 }

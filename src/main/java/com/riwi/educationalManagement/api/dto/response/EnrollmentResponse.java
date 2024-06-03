@@ -14,4 +14,6 @@ import java.time.LocalDateTime;
 public class EnrollmentResponse {
     private Long id;
     private LocalDateTime enrollmentDate;
+    private Long userId;
+    private Long courseId;
 }

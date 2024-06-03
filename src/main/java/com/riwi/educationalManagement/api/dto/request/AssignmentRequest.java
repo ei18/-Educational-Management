@@ -12,12 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AssignmentRequest {
     @NotBlank(message = "The title is required")
-
     private String assignmentTitle;
-
     private String description;
-
     private LocalDate dueDate;
-
     private Long lessonId;
 }

@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseRequest {
-
     @NotBlank(message = "The course name is required")
     private String courseName;
-
     private String description;
-
     private Long instructorId;
 }

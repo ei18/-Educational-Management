@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 @Data
 @SuperBuilder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class BaseErrorResponse implements Serializable {
     private Integer code;
     private String status;
