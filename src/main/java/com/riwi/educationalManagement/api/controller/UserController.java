@@ -1,7 +1,9 @@
 package com.riwi.educationalManagement.api.controller;
 
 import com.riwi.educationalManagement.api.dto.request.UserRequest;
+import com.riwi.educationalManagement.api.dto.response.UserAndCourseResponse;
 import com.riwi.educationalManagement.api.dto.response.UserResponse;
+import com.riwi.educationalManagement.infraestructure.abstract_service.IEnrollmentService;
 import com.riwi.educationalManagement.infraestructure.abstract_service.IUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private final IUserService userService;
+    @Autowired
+    private final IEnrollmentService enrollmentService;
 
     @Operation(
         summary = "List all users with pagination",
@@ -75,5 +79,17 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ApiResponse(responseCode = "400", description = "When the id is invalid", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+    })
+    @Operation(
+        summary = "Get courses by User Id",
+        description = "Get courses by User Id")  
+    @GetMapping(path = "/{user_id}/courses")
+    public ResponseEntity<UserAndCourseResponse> getCoursesByIdUser(@Validated @PathVariable(name = "user_id") Long userId){
+
+        return ResponseEntity.ok(this.enrollmentService.getCoursesByIdUser(userId));
     }
 }

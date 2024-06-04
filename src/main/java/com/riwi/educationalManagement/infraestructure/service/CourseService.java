@@ -8,10 +8,14 @@ import com.riwi.educationalManagement.domain.entities.User;
 import com.riwi.educationalManagement.domain.repositories.CourseRepository;
 import com.riwi.educationalManagement.domain.repositories.UserRepository;
 import com.riwi.educationalManagement.infraestructure.abstract_service.ICourseService;
+import com.riwi.educationalManagement.utils.enums.Role;
 import com.riwi.educationalManagement.utils.exception.BadRequestException;
 import com.riwi.educationalManagement.utils.message.ErrorMessages;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +28,6 @@ public class CourseService implements ICourseService{
    
     @Autowired
     private final CourseRepository courseRepository;
-
     @Autowired
     private final UserRepository userRepository;
 
@@ -33,6 +36,10 @@ public class CourseService implements ICourseService{
 
         User user = this.userRepository.findById(request.getInstructorId())
         .orElseThrow(()-> new BadRequestException("User"));
+
+        if (Role.STUDENT.name().equals(user.getRole().name())) {
+            throw new BadRequestException(ErrorMessages.RequiredRoleInstructor);
+        }
 
         Course course = this.requestToEntity(request);
 
@@ -69,6 +76,11 @@ public class CourseService implements ICourseService{
     @Override
     public void delete(Long id) {
         this.courseRepository.delete(this.find(id));
+    }
+
+    @Override
+    public List<Course> findAllByCourseName(String courseName) {
+        return this.courseRepository.findAllByCourseNameLike(courseName);
     }
 
     private CourseToUserResponse entityToResponse(Course entity) {

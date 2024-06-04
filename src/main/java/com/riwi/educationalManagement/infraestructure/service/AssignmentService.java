@@ -32,8 +32,7 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public CompleteAssignmentInfoResponse create(AssignmentRequest request) {
 
-        Lesson lesson = this.lessonRepository.findById(request.getLessonId())
-                .orElseThrow(()-> new BadRequestException("Lesson"));
+        Lesson lesson = this.lessonRepository.findById(request.getLessonId()).orElseThrow(()-> new BadRequestException("Lesson"));
 
         Assignment assignment = this.requestToEntity(request);
         assignment.setLesson(lesson);
@@ -117,5 +116,4 @@ public class AssignmentService implements IAssignmentService {
         return this.assignmentRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Assignment"));
     }
-
 }

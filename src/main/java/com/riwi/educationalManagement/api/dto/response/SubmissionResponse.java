@@ -15,5 +15,7 @@ public class SubmissionResponse {
     private Long id;
     private String content;
     private LocalDateTime submissionDate;
-    private double grade;    
+    private double grade; 
+    private CompleteAssignmentInfoResponse assignment;
+    private UserInfoResponse user;   
 }

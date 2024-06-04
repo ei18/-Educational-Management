@@ -4,8 +4,6 @@ import com.riwi.educationalManagement.api.dto.request.MessageRequest;
 import com.riwi.educationalManagement.api.dto.response.MessageResponse;
 import com.riwi.educationalManagement.api.dto.response.UserInfoResponse;
 import com.riwi.educationalManagement.domain.entities.Course;
-import com.riwi.educationalManagement.domain.entities.Enrollment;
-import com.riwi.educationalManagement.domain.entities.Lesson;
 import com.riwi.educationalManagement.domain.entities.Message;
 import com.riwi.educationalManagement.domain.entities.User;
 import com.riwi.educationalManagement.domain.repositories.MessageRepository;
@@ -58,13 +56,17 @@ public class MessageService implements IMessageService{
 
     @Override
     public MessageResponse update(MessageRequest request, Long id) {
-        // Message message = this.find(id);
-        // Message messageUpdate = this.requestToEntity(request);
-        // messageUpdate.setId(id);
+        Message message = this.find(id);
 
-        // return this.entityToResponse(this.messageRepository.save(messageUpdate));
+        User userSender = userRepository.findById(request.getSenderId())
+        .orElseThrow(() -> new BadRequestException(ErrorMessages.IdNotFound("User")));
 
-        return null;
+        User userReceiver = userRepository.findById(request.getReceiverId())
+        .orElseThrow(() -> new BadRequestException(ErrorMessages.IdNotFound("User")));
+
+        Message messageUpdate = this.requestToEntity(request, userSender, userReceiver);
+
+        return this.entityToResponse(this.messageRepository.save(messageUpdate));           
     }
 
     @Override
@@ -75,10 +77,10 @@ public class MessageService implements IMessageService{
     @Override
     public List<MessageResponse> findAllMessageBySenderIdAndReceiverId(Long senderId, Long receiverId){
         return entityToResponseList(messageRepository.findAllByMessageSenderAndMessageReceiver(
-            UserInfoResponse.builder()
+            User.builder()
                     .id(senderId)
                     .build(),
-            UserInfoResponse.builder()
+            User.builder()
                     .id(receiverId)
                     .build()));
     }
@@ -118,19 +120,25 @@ public class MessageService implements IMessageService{
                 .build();        
     }
 
-    private List<MessageResponse> entityToResponseList(List<Message> entity){
+    private List<MessageResponse> entityToResponseList(List<Message> entity) {
         return entity.stream()
                 .map(message -> MessageResponse.builder()
                         .id(message.getId())
                         .messageContent(message.getMessageContent())
                         .userReceiver(UserInfoResponse.builder()
-                            .id(message.getMessageReceiver().getId())
-                            .fullName(message.getMessageReceiver().getFullName())
-                            .build())
+                                .id(message.getMessageReceiver().getId())
+                                .fullName(message.getMessageReceiver().getFullName())
+                                .email(message.getMessageReceiver().getEmail())
+                                .role(message.getMessageReceiver().getRole())
+                                .username(message.getMessageReceiver().getUsername())
+                                .build())
                         .userSender(UserInfoResponse.builder()
-                            .id(message.getMessageSender().getId())
-                            .fullName(message.getMessageSender().getFullName())
-                            .build())
+                                .id(message.getMessageSender().getId())
+                                .fullName(message.getMessageSender().getFullName())
+                                .email(message.getMessageSender().getEmail())
+                                .role(message.getMessageSender().getRole())
+                                .username(message.getMessageSender().getUsername())
+                                .build())
                         .sentDate(message.getSentDate())
                         .build()).toList();
     }
